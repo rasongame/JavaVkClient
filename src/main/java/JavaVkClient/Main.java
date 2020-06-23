@@ -1,6 +1,4 @@
-package rsngm;
-
-import java.io.IOException;
+package JavaVkClient;
 
 public class Main {
     public static void main(String[] args) {

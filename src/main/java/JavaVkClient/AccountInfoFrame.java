@@ -1,4 +1,4 @@
-package rsngm;
+package JavaVkClient;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package rsngm;
+package JavaVkClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +22,7 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
         login_field.setBounds(50, 100, 200,30);
         login_btn.setBounds(50, 250, 200,30);
         add(info_label);
+
         add(login_field);
         add(login_btn);
 
@@ -38,9 +39,8 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
 
             try {
                 VkAccountManager.getInstance().login(login_field.getText());
-//                setVisible(false);
-                new ChatBoxFrame();
-                new AccountInfoFrame();
+                setVisible(false);
+                ChatBoxFrame.getInstance();
 
             } catch (IOException e) {
                 e.printStackTrace();
