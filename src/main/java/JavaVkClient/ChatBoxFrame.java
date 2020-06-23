@@ -12,18 +12,18 @@ public class ChatBoxFrame extends JFrame implements ActionListener {
     JButton send_btn;
     JTextField peer_id_box;
     JPanel chatPanel;
+    JScrollPane chatList;
 
     public ChatBoxFrame() {
         super("ChatBox");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        chatPanel = new JPanel();
+        chatList = new JScrollPane();
+        chatPanel = new JPanel(new FlowLayout());
         text_box = new JTextField("text");
         peer_id_box = new JTextField("chat id");
         send_btn = new JButton("send");
-        chatPanel.setBounds(100, 200, 200, 200);
-        send_btn.setBounds(0, 100, 200, 30);
-        text_box.setBounds(0, 200, 200, 30);
-        peer_id_box.setBounds(0, 150, 200, 30);
+        chatPanel.setBounds(0, 0, 400, 400);
+//        chatPanel.setPreferredSize(new Dimension(400, 400));
         chatPanel.add(text_box);
         chatPanel.add(send_btn);
         chatPanel.add(peer_id_box);
@@ -49,6 +49,7 @@ public class ChatBoxFrame extends JFrame implements ActionListener {
             try {
                 System.out.println("test");
                 VkAccountManager.getInstance().sendMessage(peer_id_box.getText(), text_box.getText());
+                VkAccountManager.getInstance().getChatList();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

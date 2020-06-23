@@ -51,6 +51,19 @@ public class VkAccountManager {
                 method, args, access_token);
     }
 
+    public void getChatList() throws IOException, InterruptedException {
+        String buffer = "";
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(
+                        URI.create(
+                                getMethodString("messages.getConversations", null)))
+                .build();
+        HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
+        buffer = resp.body();
+        System.out.println(buffer);
+        return;
+    }
+
     public void sendMessage(String peer_id, String msg) throws IOException, InterruptedException {
         String buffer = "";
         HashMap<String, String> params = new HashMap<>();

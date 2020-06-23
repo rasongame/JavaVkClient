@@ -6,6 +6,7 @@ public class Main {
 
         javax.swing.SwingUtilities.invokeLater(() -> {
 //                createGUI();
+
             new AuthWindowFrame();
         });
     }
