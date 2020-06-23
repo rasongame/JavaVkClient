@@ -29,6 +29,7 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
         setLayout(null);
         setSize(new Dimension(400,400));
         setVisible(true);
+
     }
 
     @Override
@@ -38,7 +39,9 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
             try {
                 VkAccountManager.getInstance().login(login_field.getText());
 //                setVisible(false);
+                new ChatBoxFrame();
                 new AccountInfoFrame();
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
