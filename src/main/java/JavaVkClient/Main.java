@@ -7,7 +7,9 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(() -> {
 //                createGUI();
 
-            new AuthWindowFrame();
+            new AuthWindowFrame().setVisible(true);
+            ChatBoxFrame.getInstance().setVisible(false);
+            new AccountInfoFrame().setVisible(false);
         });
     }
 }

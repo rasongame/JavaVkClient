@@ -27,7 +27,6 @@ public class AccountInfoFrame extends JFrame implements ActionListener {
         add(status);
 
         setSize(new Dimension(400,400));
-        setVisible(true);
     }
 
     @Override

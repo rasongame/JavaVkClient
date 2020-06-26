@@ -35,7 +35,6 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
         skip_btn.addActionListener(this);
         setLayout(null);
         setSize(new Dimension(400,400));
-        setVisible(true);
 
     }
 
@@ -46,7 +45,7 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
             try {
                 VkAccountManager.getInstance().login(login_field.getText());
                 setVisible(false);
-                ChatBoxFrame.getInstance();
+                ChatBoxFrame.getInstance().setVisible(true);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -59,7 +58,7 @@ public class AuthWindowFrame extends JFrame implements ActionListener {
                 System.out.println("SSSS: " + acc);
                 VkAccountManager.getInstance().login(acc);
                 setVisible(false);
-                ChatBoxFrame.getInstance();
+                ChatBoxFrame.getInstance().setVisible(true);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (IOException e) {

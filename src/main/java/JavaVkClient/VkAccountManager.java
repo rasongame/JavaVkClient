@@ -2,6 +2,7 @@ package JavaVkClient;
 
 
 import JavaVkClient.Utils.Utils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -11,6 +12,7 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -51,17 +53,38 @@ public class VkAccountManager {
                 method, args, access_token);
     }
 
-    public void getChatList() throws IOException, InterruptedException {
+    public ArrayList<JSONObject> getChatList() throws IOException, InterruptedException {
         String buffer = "";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(
                         URI.create(
-                                getMethodString("messages.getConversations", null)))
+                                getMethodString("messages.getConversations?", null)))
                 .build();
         HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
         buffer = resp.body();
-        System.out.println(buffer);
-        return;
+//        System.out.println(request.uri());
+//        System.out.println(resp.statusCode());
+//        System.out.println(buffer);
+        JSONObject response = (JSONObject) JSONValue.parse(buffer);
+        JSONObject list = (JSONObject) response.get("response");
+        JSONArray items = (JSONArray) list.get("items");
+        ArrayList<JSONObject> result = new ArrayList<JSONObject>();
+
+        for (int i = 0; i < items.size(); i++) {
+
+            JSONObject item = (JSONObject) items.get(i);
+            result.add(item);
+//            JSONObject conversation = (JSONObject) item.get("conversation");
+//            JSONObject peer = (JSONObject) conversation.get("peer");
+//            if (peer.get("type").equals("chat")) {
+//                JSONObject chat_settings = (JSONObject) conversation.get("chat_settings");
+//                System.out.printf(" TITLE: %s \n ID %s", chat_settings.get("title"), peer.get("id"));
+//            } else if (peer.get("type").equals("user")) {
+//                System.out.printf(" TITLE: %s \n ID %s", peer.get("id"), peer.get("id"));
+//            }
+
+        }
+        return result;
     }
 
     public void sendMessage(String peer_id, String msg) throws IOException, InterruptedException {
