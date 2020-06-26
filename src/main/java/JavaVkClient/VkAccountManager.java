@@ -53,6 +53,24 @@ public class VkAccountManager {
                 method, args, access_token);
     }
 
+    public HashMap<String, String> getUserInfo(Integer user_id) throws IOException, InterruptedException {
+        String buffer = "";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("users_id", String.valueOf(user_id));
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create(getMethodString("users.get?", Utils.formatQueryParams(params))))
+                .build();
+        HttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());
+        buffer = resp.body();
+        HashMap<String, String> returns = new HashMap<>();
+        JSONObject object_1 = (JSONObject) JSONValue.parse(buffer);
+        JSONArray parsed_arr = (JSONArray) object_1.get("response");
+        JSONObject parsed = (JSONObject) parsed_arr.get(0);
+        returns.put("first_name", parsed.get("first_name").toString());
+        returns.put("last_name", parsed.get("last_name").toString());
+        return returns;
+    }
+
     public ArrayList<JSONObject> getChatList() throws IOException, InterruptedException {
         String buffer = "";
         HttpRequest request = HttpRequest.newBuilder()

@@ -45,7 +45,7 @@ public class ChatBoxFrame extends JFrame implements ActionListener {
 
     }
 
-    public void addChats() {
+    public void addChats() throws IOException, InterruptedException {
         ArrayList<JSONObject> list = null;
         // Вызвать при открытии окна.
         try {
@@ -57,13 +57,21 @@ public class ChatBoxFrame extends JFrame implements ActionListener {
         }
         if (list != null) {
             for (JSONObject object : list) {
+                System.out.println("FFF");
                 JSONObject conversation = (JSONObject) object.get("conversation");
                 JSONObject peer = (JSONObject) conversation.get("peer");
                 if (peer.get("type").equals("chat")) {
                     JSONObject chat_settings = (JSONObject) conversation.get("chat_settings");
-                    anotherPanel.add(new ChatButton((String) chat_settings.get("title"), (Long) peer.get("id")));
-                } else {
-                    anotherPanel.add(new ChatButton(String.valueOf(peer.get("id")), (Long) peer.get("id")));
+                    ChatButton btn = new ChatButton((String) chat_settings.get("title"));
+                    btn.setName("chat-" + peer.get("id"));
+                    btn.setChat_id((Long) peer.get("id"));
+                    btn.addActionListener(this);
+                    anotherPanel.add(btn);
+                } else if (peer.get("type").equals("user")) {
+                    ChatButton btn = new ChatButton(String.valueOf(peer.get("id")));
+                    btn.setChat_id((Long) peer.get("id"));
+                    btn.addActionListener(this);
+                    anotherPanel.add(btn);
                 }
 
             }
@@ -73,22 +81,29 @@ public class ChatBoxFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+
         if (actionEvent.getSource() == send_btn) {
             System.out.println((send_btn.getText()));
             try {
                 System.out.println("test");
                 VkAccountManager.getInstance().sendMessage(peer_id_box.getText(), text_box.getText());
                 addChats();
+                System.out.println(VkAccountManager.getInstance().getUserInfo(367919273));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } else if (actionEvent.getSource().getClass() == ChatButton.class) {
-            ChatButton btn = (ChatButton) actionEvent.getSource();
-            peer_id_box.setText(String.valueOf(btn.getChat_id()));
         }
+        System.out.println(actionEvent.getSource().getClass().getName());
+        System.out.println(ChatButton.class.getName());
+        if (actionEvent.getSource().getClass().getName().equals(ChatButton.class.getName())) {
 
+            ChatButton button = (ChatButton) actionEvent.getSource();
+            peer_id_box.setText(String.valueOf(button.getChat_id()));
+            System.out.println("pizda");
+
+        }
     }
 }
 
